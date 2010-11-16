@@ -5,6 +5,7 @@ var fs = require('fs');
 
 window = {};
 dojo = {
+    _hasResource: {},
     _extraNames: [],
     _mkscope: function(name) {
       var segments = name.split('.');
@@ -27,7 +28,7 @@ dojo = {
       //sys.puts('requireIf: '+ name + cond);
     },
     provide: function(name) {
-      //sys.puts('provide: '+ name);
+      sys.puts('provide: '+ name);
       this._mkscope(name);
       dojo._module.name = name;
       dojo._modules[name] = dojo._module;
@@ -41,6 +42,10 @@ dojo = {
     },
     loadInit: function() {
       //sys.puts('loadInit');
+    },
+    addOnLoad: function() {
+    },
+    addOnUnload: function() {
     },
     _mixin: function() {
       //sys.puts('mixin');
@@ -63,6 +68,7 @@ function wrap_dojo_module(fname) {
         content: fs.readFileSync(fname, 'utf-8')
     };
     dojo.declare = dojo._mkscope;
+    dojo._hasResource = {};
     process.compile(dojo._module.content, fname);
 
     return dojo._module;
@@ -96,6 +102,8 @@ var DOJOX_GFX_SRC = [
     "dojox/gfx/vml_attach.js",
     "dojox/gfx/silverlight.js",
     "dojox/gfx/silverlight_attach.js",
+    "dojox/xml/DomParser.js",
+    "dojox/html/metrics.js",
     //"dojox/gfx/canvas.js", // fails to 'jakify' as our dojo emulation is real fake
     //"dojox/gfx/canvas_attach.js"
 ]
@@ -105,11 +113,12 @@ task('default', [], function () {
       DOJOX_GFX_SRC.forEach(function(f) {
           var m = wrap_dojo_module(VENDOR+'/'+f);
 
-          var target = 'src/dojox-gfx/gen/' + f.replace(/\//g, '_');
+          var contents = "YUI.add(\'gallery-"+m.name+"\', function(Y) { var dojo = Y.dojo, dojox = Y.dojox;\n"+m.content+"\n}, '0.0.1', { requires:\n" + sys.inspect(m.requires) + "\n});";
 
+          var target = 'src/dojox-gfx/gen/' + f.replace(/\//g, '_');
           sys.puts('writing: ' + target);
-          fs.writeFileSync(target,
-                           "YUI.add(\'gallery-"+m.name+"\', function(Y) { var dojo = Y.dojo, dojox = Y.dojox;\n"+m.content+"\n}, '0.0.1', { requires:\n" + sys.inspect(m.requires) + "\n});");
+          fs.writeFileSync(target, contents);
+          fs.writeFileSync(target.replace(/\.js$/, '-debug.js'), contents);
       });
       //sys.puts(sys.inspect(dojo._modules));
 });

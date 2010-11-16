@@ -11,7 +11,13 @@ YUI.add('gallery-dojo-jeo', function(Y) {
     Y.dojox = {
     };
     Y.dojo = {
+        // dojo module loader tracking map
+        _hasResource: {},
+
         doc: YUI.config.doc,
+        body: function() {
+            return YUI.config.doc.body;
+        },
         byId: function(id) {
             return Y.Node.getDOMNode(Y.one(id instanceof String ? '#'+id : id));
         },
@@ -22,7 +28,8 @@ YUI.add('gallery-dojo-jeo', function(Y) {
         experimental: function(name) {
         },
         require: function(name) {
-            Y.use('gallery-'+name); // FIXME: our dojo modules are prefixed with gallery-
+            // FIXME: our dojo modules are prefixed with gallery-
+            Y.use('gallery-'+name);
         },
         requireIf: function(cond, name) {
             if (cond) this.require(name);
@@ -55,6 +62,21 @@ YUI.add('gallery-dojo-jeo', function(Y) {
 
         loadInit: function(fn) {
             fn();
+        },
+        addOnLoad: function() {
+            // FIXME: TODO
+        },
+        addOnUnload: function() {
+            // FIXME: TODO
+        },
+        connect: function (obj, evtname, context, method, dontFix) {
+            // NOTE: perhaps we might need some event canonicalization here..
+            return Y.get(obj).on(evtname.replace(/^on/,''),
+                                 Y.bind(method, context));
+        },
+        disconnect: function (handle) {
+            // disconnect a handle returned by dojo.connect
+            handle.detach();
         },
 
         // UA emulation
