@@ -113,7 +113,7 @@ task('default', [], function () {
       DOJOX_GFX_SRC.forEach(function(f) {
           var m = wrap_dojo_module(VENDOR+'/'+f);
 
-          var contents = "YUI.add(\'gallery-"+m.name+"\', function(Y) { var dojo = Y.dojo, dojox = Y.dojox;\n"+m.content+"\n}, '0.0.1', { requires:\n" + sys.inspect(m.requires) + "\n});";
+          var contents = "YUI.add(\'gallery-"+m.name+"\', function(Y) {\nY.dojo._modules[\'"+m.name+"\']=function(Y) { var dojo = Y.dojo, dojox = Y.dojox;\n"+m.content+"\n}\n}, '0.0.1', { requires:\n" + sys.inspect(m.requires) + "\n});";
 
           var target = 'src/dojox-gfx/gen/' + f.replace(/\//g, '_');
           sys.puts('writing: ' + target);

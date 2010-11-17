@@ -1,16 +1,6 @@
 A project to provide YUI3 modules for dojox.gfx mostly running on top of
 the YUI internals.
 
-BEWARE this is just a sketch for now...
-
-Notes
------
-
-* The dojo.requireIf doesn't work well.
-* It renders some SVG in Google Chrome as is if the required renderer 
-files are included as script tags.
-
-
 Build
 =====
 
@@ -25,11 +15,11 @@ cp -r src/dojox-gfx your-3rd-party-yui3-modules-folder
 Current Usage
 =============
 
-Y.use('gallery-dojox.gfx',
-      // for now also:
-      'gallery-dojox.gfx.svg', 'gallery-dojox.gfx.svg_attach',
-function(Y) {
+Y.use('gallery-dojox-gfx', function(Y) {
     var dojo = Y.dojo, dojox = Y.dojox;
+
+    // common dojo code follows...
+    dojo.require('dojox.gfx');
 
     var surface = dojox.gfx.createSurface('nodeId', 300, 300);
     //
