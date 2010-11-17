@@ -78,6 +78,7 @@ var VENDOR = "vendor";
 var DOJOX_GFX_SRC = [
     "dojo/_base/lang.js",
     "dojo/_base/array.js",
+    "dojo/_base/connect.js",
     "dojo/_base/declare.js",
     "dojo/_base/Color.js",
     "dojox/gfx.js",

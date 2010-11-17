@@ -1,10 +1,12 @@
 YUI.add('gallery-dojo', function(Y) {
     // Y.dojo and Y.dojox initialized
     Y.dojo.require('dojo._base.declare');
+    Y.dojo.require('dojo._base.connect');
     Y.dojo.require('dojo._base.Color');
 }, '0.0.1', { requires: [
     'gallery-dojo-jeo',
     'gallery-dojo._base.declare',
+    'gallery-dojo._base.connect',
     'gallery-dojo._base.Color'
 ] });
 
@@ -32,7 +34,7 @@ YUI.add('gallery-dojo-jeo', function(Y) {
             return YUI.config.doc.body;
         },
         byId: function(id) {
-            return Y.Node.getDOMNode(Y.one(id instanceof String ? '#'+id : id));
+            return Y.Node.getDOMNode(Y.one(typeof id === 'string' ? '#'+id : id));
         },
         config: {
         },
@@ -84,15 +86,6 @@ YUI.add('gallery-dojo-jeo', function(Y) {
         },
         addOnUnload: function() {
             // FIXME: TODO
-        },
-        connect: function (obj, evtname, context, method, dontFix) {
-            // NOTE: perhaps we might need some event canonicalization here..
-            return Y.get(obj).on(evtname.replace(/^on/,''),
-                                 Y.bind(method, context));
-        },
-        disconnect: function (handle) {
-            // disconnect a handle returned by dojo.connect
-            handle.detach();
         },
 
         // UA emulation
