@@ -29,9 +29,9 @@ YUI.add('gallery-dojo-jeo', function(Y) {
         // dojo module loader tracking map
         _hasResource: {},
 
-        doc: YUI.config.doc,
+        doc: Y.config.doc,
         body: function() {
-            return YUI.config.doc.body;
+            return Y.config.doc.body;
         },
         byId: function(id) {
             return Y.Node.getDOMNode(Y.one(typeof id === 'string' ? '#'+id : id));
@@ -89,9 +89,14 @@ YUI.add('gallery-dojo-jeo', function(Y) {
         },
 
         // UA emulation
-        isSafari: 3, // dojox.gfx doesn't check for anything bug 3+ (fine by me) // FIXME?
-        isWebKit: Y.UA.webkit,
-        isIE: Y.UA.ie
+        isBrowser: Y.UA.ie || Y.UA.chrome || Y.UA.gecko,
+        isMozilla: Y.UA.gecko,
+        isOpera:   Y.UA.opera,
+        isChrome:  Y.UA.chrome,
+        isSafari:  Y.UA.webkit <= 420 ? 2 : 5, // FIXME other versions?
+        isWebKit:  Y.UA.webkit,
+        isIE:  Y.UA.ie,
+        isMac: Y.UA.os === 'macintosh'
     };
 }, '0.0.1', { requires: [
 ] });
