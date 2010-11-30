@@ -50,7 +50,7 @@ YUI.add('gallery-dojo-jeo', function(Y) {
             });
         },
         requireIf: function(cond, name) {
-            if (cond) this.require(name);
+            if (cond) Y.dojo.require(name);
         },
         provide: function(name) {
             Y.namespace(name);
@@ -73,7 +73,7 @@ YUI.add('gallery-dojo-jeo', function(Y) {
         mixin: function(obj, props) {
             if(!obj){ obj = {}; }
             for(var i=1, l=arguments.length; i<l; i++){
-                this._mixin(obj, arguments[i]);
+                Y.dojo._mixin(obj, arguments[i]);
             }
             return obj; // Object
         },
@@ -86,6 +86,11 @@ YUI.add('gallery-dojo-jeo', function(Y) {
         },
         addOnUnload: function() {
             // FIXME: TODO
+        },
+        destroy: function(node) {
+            node = Y.dojo.byId(node);
+            Y.Event.purgeElement(node, true);
+            node.parentNode && node.parentNode.removeChild(node);
         },
 
         // UA emulation
