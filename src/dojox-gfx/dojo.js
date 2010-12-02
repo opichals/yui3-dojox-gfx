@@ -11,6 +11,25 @@ YUI.add('gallery-dojo', function(Y) {
 ] });
 
 YUI.add('gallery-dojox-gfx', function(Y) {
+
+    // Add the required VML namespaces...
+    if(Y.dojo.isIE){
+        try{
+            (function(){
+                document.namespaces.add("v", "urn:schemas-microsoft-com:vml");
+                var vmlElems = ["*", "group", "roundrect", "oval", "shape", "rect", "imagedata", "path", "textpath", "text"],
+                    i = 0, l = 1, s = document.createStyleSheet();
+                if(Y.dojo.isIE >= 8){
+                    i = 1;
+                    l = vmlElems.length;
+                }
+                for(; i < l; ++i){
+                    s.addRule("v\\:" + vmlElems[i], "behavior:url(#default#VML); display:inline-block");
+                }
+            })();
+        }catch(e){}
+    }
+
     // the requireIf arranges the right renderer being added
 }, '0.0.1', { requires: [
     'gallery-dojo',
