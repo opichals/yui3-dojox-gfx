@@ -1,12 +1,16 @@
-A project to provide YUI3 modules for dojox.gfx mostly running on top of
-the YUI internals.
+A project to provide YUI3 modules for dojox.gfx running on top of the YUI3
+internals (no dojo.js seedfile necessary).
+
+This is useful to minimize the number of frameworks used when utilizing
+dojox.gfx from an application generally built on top of YUI3.
+
 
 Build
 =====
 
-# copy the dojo/dojox sources to the vender folder
+# copy the dojo/dojox sources to the vendor folder
 cp -r dojo dojox vendor/
-# build it
+# build it using https://github.com/mde/node-jake
 jake
 # get the ready-to-use YUI3 module files
 cp -r src/dojox-gfx your-3rd-party-yui3-modules-folder
@@ -26,6 +30,12 @@ Y.use('gallery-dojox-gfx', function(Y) {
     // surface.createRect(...)
     //
 });
+
+
+License
+=======
+
+BSD License (http://www.dojotoolkit.org/license)
 
 
 --
