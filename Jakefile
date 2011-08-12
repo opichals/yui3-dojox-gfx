@@ -55,6 +55,8 @@ dojo = {
     },
     extend: function() {
       //sys.puts('extend');
+    },
+    forEach: function() {
     }
 };
 
@@ -105,8 +107,9 @@ var DOJOX_GFX_SRC = [
     "dojox/gfx/silverlight_attach.js",
     "dojox/xml/DomParser.js",
     "dojox/html/metrics.js",
-    //"dojox/gfx/canvas.js", // fails to 'jakify' as our dojo emulation is real fake
-    //"dojox/gfx/canvas_attach.js"
+    "dojox/gfx/canvas.js",
+    "dojox/gfx/canvas_attach.js",
+    "dojox/gfx/decompose.js"
 ]
 
 desc('This is the default task.');

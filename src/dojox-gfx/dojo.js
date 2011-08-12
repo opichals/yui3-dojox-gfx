@@ -35,6 +35,7 @@ YUI.add('gallery-dojox-gfx', function(Y) {
     'gallery-dojo',
     'gallery-dojox.gfx',
     'gallery-dojox.gfx.svg',
+    'gallery-dojox.gfx.canvas',
     'gallery-dojox.gfx.silverlight',
     'gallery-dojox.gfx.vml'
 ] });
