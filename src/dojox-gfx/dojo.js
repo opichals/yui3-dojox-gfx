@@ -53,6 +53,12 @@ YUI.add('gallery-dojo-jeo', function(Y) {
         body: function() {
             return Y.config.doc.body;
         },
+        create: function(tagName, styles, p) {
+            var e = Y.config.doc.createElement(tagName);
+            var n = Y.one(p.appendChild(e));
+            n.setStyles(styles);
+            return e;
+        },
         byId: function(id) {
             return Y.Node.getDOMNode(Y.one(typeof id === 'string' ? '#'+id : id));
         },

@@ -86,7 +86,7 @@ var DOJOX_GFX_SRC = [
     "dojox/gfx.js",
     "dojox/gfx/_base.js",
     "dojox/gfx/arc.js",
-    "dojox/gfx/attach.js",
+    //"dojox/gfx/attach.js",
     "dojox/gfx/decompose.js",
     "dojox/gfx/fx.js",
     "dojox/gfx/gradient.js",
@@ -108,8 +108,7 @@ var DOJOX_GFX_SRC = [
     "dojox/xml/DomParser.js",
     "dojox/html/metrics.js",
     "dojox/gfx/canvas.js",
-    "dojox/gfx/canvas_attach.js",
-    "dojox/gfx/decompose.js"
+    "dojox/gfx/canvas_attach.js"
 ]
 
 desc('This is the default task.');
