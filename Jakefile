@@ -2,6 +2,7 @@
 
 var sys = require('sys');
 var fs = require('fs');
+var vm = require('vm');
 
 window = {};
 dojo = {
@@ -12,7 +13,7 @@ dojo = {
       segments.reduce(function(partial, segment) {
           partial += (partial ? '.':'') + segment;
           var e = partial + ' = typeof ' + partial + ' == "object" ? ' + partial + ' : {}';
-          process.compile(e, name);
+          vm.runInThisContext(e, name);
           return partial;
       }, '');
     },
@@ -59,6 +60,16 @@ dojo = {
     forEach: function() {
     }
 };
+define = function(requires, fn) {
+      var name = dojo._module.path.replace(/\//g, '.');
+      name = name.replace(/vendor\./, '');
+      name = name.replace(/.js$/, '');
+      dojo.provide(name);
+
+      requires.forEach(function(name) {
+          dojo._module.requires.push('gallery-'+name.match(/^\/+$/));
+      });
+};
 
 dojo._modules = {};
 function wrap_dojo_module(fname) {
@@ -71,7 +82,7 @@ function wrap_dojo_module(fname) {
     };
     dojo.declare = dojo._mkscope;
     dojo._hasResource = {};
-    process.compile(dojo._module.content, fname);
+    vm.runInThisContext(dojo._module.content, fname);
 
     return dojo._module;
 }
