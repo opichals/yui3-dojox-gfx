@@ -11,7 +11,11 @@ dojo = {
     _mkscope: function(name) {
       var segments = name.split('.');
       segments.reduce(function(partial, segment) {
-          partial += (partial ? '.':'') + segment;
+          if (partial) {
+              partial += "['"+segment+"']";
+          } else {
+              partial += segment;
+          }
           var e = partial + ' = typeof ' + partial + ' == "object" ? ' + partial + ' : {}';
           vm.runInThisContext(e, name);
           return partial;
@@ -61,13 +65,42 @@ dojo = {
     }
 };
 define = function(requires, fn) {
-      var name = dojo._module.path.replace(/\//g, '.');
-      name = name.replace(/vendor\./, '');
+      var name = dojo._module.path;
+      name = name.replace(/vendor\//, '');
       name = name.replace(/.js$/, '');
+
+      var segments = name.split(/\//);
+      segments.pop();
+
+      name = name.replace(/\//g, '.');
       dojo.provide(name);
 
+
       requires.forEach(function(name) {
-          dojo._module.requires.push('gallery-'+name.match(/^\/+$/));
+          var segs = name.split(/\//);
+          segs.pop();
+
+          var relative = false;
+          var folder = [].concat(segments);
+          segs.forEach(function(seg) {
+              if (seg === '.') relative = true;
+              if (seg === '..') {
+                  relative = true;
+                  folder.pop();
+              }
+          });
+          name = name.replace(/\//g,'.');
+          name = name.replace(/!/g,'');
+          if (relative) {
+              folder.push( name.match(/[^\.]+$/)[0] );
+          } else {
+              folder = [name];
+          }
+
+          if (folder[0] === 'require') folder.unshift('dojo');
+
+          sys.puts(dojo._module.path + ' R: '+ folder.join('/') +".js");
+          dojo._module.requires.push('gallery-'+folder.join('.'));
       });
 };
 
@@ -89,11 +122,14 @@ function wrap_dojo_module(fname) {
 
 var VENDOR = "vendor";
 var DOJOX_GFX_SRC = [
+    "dojo/has.js",
     "dojo/_base/lang.js",
+    "dojo/dom-construct.js",
     "dojo/_base/array.js",
     "dojo/_base/connect.js",
     "dojo/_base/declare.js",
     "dojo/_base/Color.js",
+    "dojo/_base/sniff.js",
     "dojox/gfx.js",
     "dojox/gfx/_base.js",
     "dojox/gfx/arc.js",
